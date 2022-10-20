@@ -181,7 +181,7 @@ class Processor(MixinMeta):
 
         if not interaction.completed:
             try:
-                await interaction.send("Slash Tag completed.", hidden=True)
+                await interaction.send("ᅠ", hidden=True)
             except discord.NotFound:
                 pass
 
