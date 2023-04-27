@@ -419,7 +419,12 @@ class InteractionResponse:
         if not self.guild_id:
             self._channel = await self.author.create_dm()
         else:
-            self._channel = await self.bot.fetch_channel(self.channel_id)
+            try:
+                self._channel = await self.bot.fetch_channel(self.channel_id)
+            except discord.errors.InvalidData:
+                ch_data = await self.bot.http.get_channel(self.channel_id)
+                ch_data["position"] = 100
+                self._channel = discord.TextChannel(guild=self.bot.get_guild(self.guild_id), state=self.bot._connection, data=ch_data)
         return self._channel
 
     @property
